@@ -15,7 +15,7 @@ UBUNTU=$(lsb_release -rs)
 
 # Download do Docker Compose
 DOCKERCOMPOSE="https://github.com/docker/compose/releases/download/v2.11.1/docker-compose-linux-x86_64"
-DOCKERDEP="bind9"
+
 
 DOCKERINSTALLDEP="apt-transport-https ca-certificates curl software-properties-common \
 linux-image-generic linux-image-extra-virtual python3-dev python3-pip libffi-dev gcc \
@@ -57,23 +57,9 @@ fi
 
 echo -e "Início do script $0 em: $(date +%d/%m/%Y-"("%H:%M")")\n\n" &>> $LOG
 
-#
-# Verificação de dependências do Docker Community
-#
 
-echo -n "Verificação de dependencias do Docker Community..."
-    for name in $DOCKERDEP
-    do
-        [[ $(dpkg -s $name 2> /dev/null) ]] || {
-            echo -en "\n \nO software: $name precisa ser instalado. \nUse o comando 'apt install $name'\n";
-            deps=1;
-            }
-    done
-        [[ $deps -ne 1 ]] && echo -e "Dependências:    -   \033[01;32m OK \033[01;37m" || {
-            echo -en "\nInstale as dependências acima e execute novamente.\n";
-            exit 1;
-            }
-        sleep 3
+
+
 
 
 
@@ -88,6 +74,8 @@ echo -e "Removendo todos os software desnecessários."
 	apt -y autoremove &>> $LOG
 	apt -y autoclean &>> $LOG
 echo -e "Software removidos com sucesso.\n"
+clear
+
 
 
 #
